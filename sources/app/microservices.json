@@ -1,0 +1,9 @@
+[
+    {
+        "script": "dist/api/index.js",
+        "name": "parcel.api",
+        "exec_mode": "cluster",
+        "watch": true,
+        "instances": 1
+    }
+]
