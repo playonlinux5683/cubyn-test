@@ -149,7 +149,7 @@ export class ParcelApi {
 	}
 
 	/**
-    * Estimate a parcel cost. Choice has been made to compute it before saving or updating parce lentry in database.
+    * Estimate a parcel cost. Choice has been made to compute it by calling a service method.
 	* Another choice: compute it when getting a parcel from database.
     *
     * @param {Request} request
