@@ -2,7 +2,7 @@ import * as http from 'http';
 
 import app from './app';
 
-const PORT = process.argv[3] || 3000;
+const PORT = process.argv[3] || 7000;
 
 // debug('ts-express:server');
 
@@ -21,7 +21,6 @@ server.on('listening', onListening);
 
 function normalizePort(val: number | string): number | string | boolean {
   let port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
-  console.log('POOOOOORRRRRTTTT = ', port);
   if (isNaN(port)) return val;
   else if (port >= 0) return port;
   else return false;
