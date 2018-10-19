@@ -4,6 +4,9 @@
         "name": "parcel.api",
         "exec_mode": "cluster",
         "watch": true,
+        "env": {
+            "MONGO_DB_HOST": "db"
+        },
         "instances": 1
     }
 ]
