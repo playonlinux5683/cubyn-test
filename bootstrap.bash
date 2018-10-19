@@ -3,6 +3,8 @@
 ################################################################################
 # Commands:
 #
+# - auto:
+#		-> Run sequentially Start, Test, Coverage and Stop commands
 # - start:
 #		-> Start all containers
 # - stop:
@@ -131,6 +133,7 @@ function help {
 	cat <<-EOF
 	Usage: $script
 		Script for managing operations on containers which prompt a list of availables commands:
+			auto => Run sequentially Start, Test, Coverage and Stop commands
             start => Start all containers
             test => run container tests
             coverage => run container test coverage
