@@ -69,7 +69,6 @@ export class ParcelApi {
 			if (_.isEmpty(parcel)) {
 				throw { httpCode: 404, message: 'Parcel not found' };
 			}
-			console.log('parcel = ', parcel);
 
 			return parcel;
 		});
@@ -150,7 +149,8 @@ export class ParcelApi {
 	}
 
 	/**
-    * Estimate a parcel cost
+    * Estimate a parcel cost. Choice has been made to compute it before saving or updating parce lentry in database.
+	* Another choice: compute it when getting a parcel from database.
     *
     * @param {Request} request
     * @param {Response} response
@@ -172,30 +172,8 @@ export class ParcelApi {
 				throw { httpCode: 404, message: 'Parcel not found' };
 			}
 
-			let unitPrice;
-			if (parcel.type === 'classic') {
-				if (parcel.weight < 0.5) {
-					unitPrice = 6;
-				} else if (parcel.weight < 1) {
-					unitPrice = 7;
-				} else if (parcel.weight < 2) {
-					unitPrice = 9;
-				} else {
-					unitPrice = 1;
-				}
-			} else if (parcel.type === 'express') {
-				if (parcel.weight < 0.5) {
-					unitPrice = 10;
-				} else if (parcel.weight < 1) {
-					unitPrice = 12;
-				} else if (parcel.weight < 2) {
-					unitPrice = 15;
-				} else {
-					unitPrice = 4;
-				}
-			}
+			const price = parcelService.estimate(parcel);
 
-			const price = unitPrice * _.ceil(parcel.weight, 1);
 			return { price };
 		});
 	}
