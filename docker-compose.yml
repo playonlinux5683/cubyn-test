@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    container_name: 'cubyn-mongo'
+    image: 'mongo:latest'
+    ports:
+      - 27018:27017
+  app:
+    build: './sources'
+    ports:
+      - 7000:7000
+    depends_on:
+      - db
+    volumes:
+      - ./sources/app:/usr/src/app
