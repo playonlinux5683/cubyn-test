@@ -4,11 +4,11 @@ services:
     container_name: 'cubyn-mongo'
     image: 'mongo:latest'
     ports:
-        - 27018:27017
+      - 27018:27017
   app:
     build: './sources'
     ports:
-      - 7000:3000
+      - 7000:7000
     depends_on:
       - db
     volumes:

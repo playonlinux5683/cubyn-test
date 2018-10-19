@@ -7,12 +7,13 @@ USER 1000:1000
 WORKDIR /var/www/cubyn
 
 COPY ./app/src src/
+COPY ./app/tests tests/
 COPY ./app/package.json .
 COPY ./app/microservices.json .
 COPY ./app/tsconfig.json .
 
 RUN npm install && npm run compile
 
-EXPOSE 3000
+EXPOSE 7000
 
 CMD [ "pm2-runtime", "microservices.json" ]
