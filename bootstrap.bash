@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 ################################################################################
 # Commands:
 #
@@ -30,7 +29,7 @@ function entrypoint {
         echo "You can also pass one of the following command to the script to perform it immediatly."
         echo "Take care of dependencies between commands. Example you cannot test before launching the application."
 
-		local commands=("start" "test" "stop" "purge" "help" "exit")
+		local commands=("auto" "start" "test" "coverage" "stop" "purge" "help" "exit")
         local isFinished=false
 
         until $isFinished; do
@@ -39,7 +38,7 @@ function entrypoint {
 
             select command in "${commands[@]}"; do
                 case $command in
-                    start | test | stop | purge | help )
+                    auto | start | test | coverage | stop | purge | help )
                         break
                     ;;
                     exit )
@@ -61,9 +60,9 @@ function entrypoint {
 function wrapCall {
 	local func="$1"
 	shift
-	echo "$func: begin"
+	echo "Begin of $func command"
 	$func $@
-	echo "$func: end"
+	echo "End of $func command"
 }
 
 # Wait for all project containers to be running before performing 
@@ -88,18 +87,34 @@ function run {
 	done;
 }
 
+function auto {
+	wrapCall "start"
+	wrapCall "test"
+	wrapCall "coverage"
+	wrapCall "stop"
+}
+
+# Start application
 function start {
     docker-compose up -d --build --force-recreate
 }
 
+# Run test
 function test {
-    run "npm run test:unit"
+    run "npm run test"
 }
 
+# Run test coverage
+function coverage {
+    run "npm run test:coverage"
+}
+
+# Stop application
 function stop {
     docker-compose down
 }
 
+# Purge apllication images
 function purge {
 
 	local images=$(docker images -q "${COMPOSE_PROJECT_NAME}*")
@@ -110,7 +125,7 @@ function purge {
 	}
 }
 
-
+# Usage function
 function help {
 	local script=$(basename $0)
 	cat <<-EOF
@@ -118,6 +133,7 @@ function help {
 		Script for managing operations on containers which prompt a list of availables commands:
             start => Start all containers
             test => run container tests
+            coverage => run container test coverage
             stop => Stop all started containers
             purge => Remove all images in cache
             help => Show this help
